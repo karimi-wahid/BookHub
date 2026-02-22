@@ -1,0 +1,29 @@
+////////// Day 1 /////////
+❓ Why do we separate app.js and server.js?
+🧠 Simple Explanation
+
+We separate them to keep responsibilities clean.
+
+📁 app.js — Application Logic
+This file:
+Creates the Express app
+Adds middlewares (JSON, CORS, routes)
+Does NOT start the server
+👉 Think of it as the app configuration
+
+🚀 server.js — Server & Infrastructure
+This file:
+Connects to the database
+Starts listening on a port
+Handles environment setup
+👉 Think of it as the app launcher
+
+🔥 Why This Is Important (Real Reasons)
+1️⃣ Clean code structure
+2️⃣ Easier testing (you can test app without starting server)
+3️⃣ Scales well for large apps
+4️⃣ Used in real production projects
+
+🧠 One-line rule (memorize this):
+
+app.js builds the app, server.js runs the app.
