@@ -15,6 +15,8 @@ const bookSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    coverImage: String,
+    pdfFile: String,
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

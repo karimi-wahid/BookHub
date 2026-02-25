@@ -1,5 +1,4 @@
-import mongoose from "mongoose";
-import Book from "../models/Book";
+const Book = require("../models/Book");
 
 const getBooks = (req, res) => {
   const books = Book.find();

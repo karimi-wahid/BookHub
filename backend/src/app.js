@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/auth", authRoutes);
+app.use("/books", require("./routes/book.routes"));
 
 app.get("/", (req, res) => {
   res.send("BookHub API running");
