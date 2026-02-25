@@ -11,20 +11,41 @@ const getBooks = (req, res) => {
   });
 };
 
-const getBook = (req, res) => {
-  const { id } = req.param;
+exports.getBooks = async (req, res) => {
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
 
-  const book = Book.find(id);
+  const search = req.query.search || "";
+  const minPrice = req.query.minPrice;
+  const maxPrice = req.query.maxPrice;
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      book,
-    },
+  const filter = {
+    title: { $regex: search, $options: "i" },
+  };
+
+  if (minPrice || maxPrice) {
+    filter.price = {};
+    if (minPrice) filter.price.$gte = Number(minPrice);
+    if (maxPrice) filter.price.$lte = Number(maxPrice);
+  }
+
+  const books = await Book.find(filter)
+    .skip(skip)
+    .limit(limit)
+    .sort("-createdAt");
+
+  const total = await Book.countDocuments(filter);
+
+  res.json({
+    total,
+    page,
+    pages: Math.ceil(total / limit),
+    data: books,
   });
 };
 
-const createBook = (req, res) => {
+exports.createBook = (req, res) => {
   const { title, author, price, description } = req.body;
 
   const newBook = Book.create(req.body);
